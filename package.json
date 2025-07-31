@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@react-native-community/checkbox": "^0.5.20",
+    "npx": "^10.2.2"
+  }
+}
