@@ -94,9 +94,9 @@ export default function Home({ navigation }) {
       case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
         return 6;
       case 'DBMS Lab Batch-II SW-II Lab (VBN) / WP Lab Batch-I SW-IV Lab (VS)':
-        return 7;
-      case 'DBMS Lab Batch-I SW-II Lab (VBN) / WP Lab Batch-II SW-IV Lab (VS)':
         return 8;
+      case 'DBMS Lab Batch-I SW-II Lab (VBN) / WP Lab Batch-II SW-IV Lab (VS)':
+        return 7;
     }
   };
   const date = new Date();
