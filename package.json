@@ -1,0 +1,28 @@
+{
+  "name": "attendance-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PSS101/Attendance-Tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PSS101/Attendance-Tracker/issues"
+  },
+  "homepage": "https://github.com/PSS101/Attendance-Tracker#readme",
+  "description": "",
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-navigation/native": "^7.1.16",
+    "@react-navigation/native-stack": "^7.3.23",
+    "expo": "^53.0.20",
+    "expo-checkbox": "^4.1.4",
+    "react": "^19.1.0",
+    "react-native-paper": "^5.14.5"
+  }
+}
