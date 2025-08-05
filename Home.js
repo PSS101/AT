@@ -227,6 +227,7 @@ export default function Home({ navigation }) {
         </View>
         <View style={styles.btnContainer}>
         <Pressable style={styles.btn1} onPress={edit}><Text style={styles.btnTxt}>Edit attendance</Text></Pressable>
+        <Text style={styles.watermark}>©PSS</Text>
         </View>
       </View>
     );
@@ -313,5 +314,14 @@ margin:10,
     color:'white',
     fontWeight:'bold',
     fontFamily:'Roboto',
+  },
+  watermark: {
+    marginRight:'auto',
+    
+    right: 10,
+    fontSize: 20,
+    color: 'rgba(0, 0, 0, 0.15)', // light, transparent text
+    fontWeight: 'bold',
+    zIndex: 9999, // make sure it's on top
   }
 });

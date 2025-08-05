@@ -185,6 +185,7 @@ return(
    
           </DataTable >
           <Pressable style={styles.btn} onPress={()=>{submit()}}><Text style={styles.btnTxt}>Edit Attendance</Text></Pressable>
+          <Text style={styles.watermark}>©PSS</Text>
   </View>
   </ScrollView>
 )
@@ -243,5 +244,14 @@ const styles = StyleSheet.create({
     color:'white',
     fontWeight:'bold',
     fontFamily:'Roboto',
+  },
+   watermark: {
+    marginRight:'auto',
+    
+    right: 10,
+    fontSize: 20,
+    color: 'rgba(0, 0, 0, 0.15)', // light, transparent text
+    fontWeight: 'bold',
+    zIndex: 9999, // make sure it's on top
   }
 })
