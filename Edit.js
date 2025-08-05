@@ -3,6 +3,7 @@ import {
   Text,
   CheckBox,
   View,
+  TextInput,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -12,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState, useEffect  } from 'react';
 import { DataTable } from 'react-native-paper';
 
-export default function Attendance({navigation}){
+export default function Edit({navigation}){
     const getIdx = (item) => {
     switch (item) {
       case 'AI&ML (YVSP)':
@@ -73,6 +74,8 @@ export default function Attendance({navigation}){
   const [attendedClasses,setAttendedClasses] = useState(0)
    const [attended, setAttended] = useState( new Array(9).fill(0));
   const [total,setTotal] = useState(new Array(9).fill(0))
+  let t = new Array(9).fill(0);
+  let a = new Array(9).fill(0);
   const add = async (key, item) => {
     try {
       await AsyncStorage.setItem(key, item);
@@ -80,6 +83,53 @@ export default function Attendance({navigation}){
       console.log(err);
     }
   };
+   const handleAttendance = (val,idx) => {
+    try{
+      console.log(val)
+      if(val.length!=0){
+        val=val.trim()
+        a = [...attended]
+        a[idx] = parseInt(val)
+        setAttended(a)
+        console.log(a)
+      }
+   
+    }
+  
+  catch(err){
+    console.log("Error")
+    console.log(err)
+  }
+  };
+  const handleTotal = (val,idx) => {
+    try{
+     if(val.length!=0){
+        val=val.trim()
+        t = [...total]
+        t[idx] = parseInt(val)
+        setTotal(t)
+        console.log(t)
+      }
+    }
+  
+  catch(err){
+    console.log(err)
+  }
+  };
+ const submit = async()=>{
+  try{
+    await add('total',JSON.stringify(total))
+    await add('attended',JSON.stringify(attended))
+    console.log("edited")
+    console.log(total)
+    console.log(attended)
+    navigation.navigate('Home')
+  }
+  catch(err){
+    console.log(err)
+  }
+ }
+
   const retrieve = async (key) => {
     try {
       let val = await AsyncStorage.getItem(key);
@@ -88,28 +138,17 @@ export default function Attendance({navigation}){
       console.log(err);
     }
   };
-  const p = (idx)=>{
-  let x=0
-  if(attended[idx]!=0 && total[idx]!=0){
-    x=((attended[idx]/total[idx])*100).toFixed(2)
-  }
-  return x
-}
 useEffect(()=>{
-  
-     
-  
   const calTotal = async()=>{
     try{
     let t=0
     let tclasses = await retrieve('total')
     tclasses = JSON.parse(tclasses)
-    tclasses.map((item,idx)=>(
-      t+=item
-    ))
     await setTotal(tclasses)
     await setTotalClasses(t)
   let val = await retrieve('attended')
+  console.log(tclasses)
+  console.log(val)
   if(val){
   val = JSON.parse(val)
   setAttended(val)
@@ -117,7 +156,6 @@ useEffect(()=>{
   for(const key in val){
     x+=val[key]
   }
-  console.log('att')
   console.log(x)
   setAttendedClasses(x)
   }
@@ -131,29 +169,22 @@ useEffect(()=>{
 return(
   <ScrollView>
   <View style={styles.container}>
-  <Text style={styles.txt}>Total Classes: {totalClasses}</Text>
-  <Text style={styles.txt}>Attended Classes: {attendedClasses}</Text>
-  <Text style={styles.txt}>Attendance: {totalClasses > 0 
-      ? ((attendedClasses/totalClasses)*100).toFixed(2) 
-      : '0.00'}%</Text>
    <DataTable >
             <DataTable.Header>
               <DataTable.Title style={{ flex:3, justifyContent: 'center'}} textStyle={{fontWeight:'bold',fontSize:14 }}>Subject</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
+              <DataTable.Title style={{ flex:2, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
               <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Total</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>P</DataTable.Title>
             </DataTable.Header>
            {Sub.map((item,idx)=>(
             <DataTable.Row key={idx}>
                 <DataTable.Cell style={{ flex:3, justifyContent: 'center' }}>{item}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }}>{attended[idx]}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }}>{total[idx]}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }} >{p(idx)}{'%'}</DataTable.Cell>
+                <DataTable.Cell style={styles.inp}><TextInput keyboardType='numeric' onChangeText={(x)=>{handleAttendance(x,idx)}} value={String(attended[idx])}></TextInput></DataTable.Cell>
+                <DataTable.Cell style={styles.inp}><TextInput keyboardType='numeric' value={String(total[idx])} onChangeText={(y)=>{handleTotal(y,idx)}} defaultValue={String(total[idx])}></TextInput></DataTable.Cell>
             </DataTable.Row>
            ))}
    
           </DataTable >
-          <Pressable style={styles.btn} onPress={()=>{navigation.navigate('Edit')}}><Text style={styles.btnTxt}>Edit Attendance</Text></Pressable>
+          <Pressable style={styles.btn} onPress={()=>{submit()}}><Text style={styles.btnTxt}>Edit Attendance</Text></Pressable>
   </View>
   </ScrollView>
 )
@@ -191,14 +222,22 @@ const styles = StyleSheet.create({
     height:50,
     width:150,
     backgroundColor:'#6ecaf5',
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    margin:10,
+    color:'white',
     marginLeft:'auto',
     marginRight:'auto',
-    padding:10,   
+    justifyContent:'center',
+    alignItems:'center',
     borderRadius:50,
     borderWidth:0,
+    margin:10,
+    padding:10,   
+  },
+  inp:{
+    flex:1,
+    justifyContent: 'center',
+    borderWidth:1, 
+    borderRadius:10,
+    margin:5,
   },
   btnTxt:{
     color:'white',

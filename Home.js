@@ -1,6 +1,8 @@
 import {
+  Button,
   Text,
   View,
+  SafeAreaView,
   StyleSheet,
   Pressable,
 } from 'react-native';
@@ -29,14 +31,14 @@ export default function Home({ navigation }) {
     ],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-I SW-II Lab (VBN) / WP Lab Batch-II SW-IV Lab (VS)',
+      'DBMS Lab Batch-I SW-II Lab (VBN)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-II SW-II Lab (VBN) / WP Lab Batch-I SW-IV Lab (VS)',
+      'WP Lab Batch-I SW-IV Lab (VS)',
       'WP (VS)',
     ],
   ];
@@ -66,17 +68,7 @@ export default function Home({ navigation }) {
     setSelected(newSelectedState);
     }
   };
-  const [obj, setObj] = useState({
-    0: [0],
-    1: [0],
-    2: [0],
-    3: [0],
-    4: [0],
-    5: [0],
-    6: [0],
-    7: [0],
-    8: [0],
-  });
+  const [obj, setObj] = useState( new Array(9).fill(0));
   const getIdx = (item) => {
     switch (item) {
       case 'AI&ML (YVSP)':
@@ -91,62 +83,62 @@ export default function Home({ navigation }) {
         return 4;
       case 'DBMS (CKR)':
         return 5;
-      case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
+      case 'AI&ML Lab Batch-I SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-II SW-II Lab (VBN) / WP Lab Batch-I SW-IV Lab (VS)':
+      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
+          return 7;
+      case 'WP Lab Batch-I SW-IV Lab (VS)':
         return 8;
-      case 'DBMS Lab Batch-I SW-II Lab (VBN) / WP Lab Batch-II SW-IV Lab (VS)':
-        return 7;
     }
   };
   const date = new Date();
   const day = date.getDay();
   
-  const check = async() => {
-    let val = await retrieve('attended');
-    val = JSON.parse(val)
-    return val
-  };
 
   const calTotal = async()=>{
-    const startDate = 28;
-    const currentDate = date.getDate()
+     const date = new Date();
+    const startDate = new Date('2025-07-28')
     let t=0
-    for(let i = startDate;i<currentDate;i++){
-      let d = currentDate-startDate
-      if(d!=0 && d!=6){
-        t+=schedule[d].length
+    const diff = parseInt((date-startDate)/(1000 * 60 * 60 * 24))
+    let tclasses =  new Array(9).fill(0)
+    for(let i = 0;i<=diff;i++){
+      let d = new Date('2025-07-28')
+      d.setDate(startDate.getDate()+i)
+      const day = d.getDay();
+      console.log(d)
+      if(day!=0 && day!=6){
+        t+=schedule[day-1].length
+        console.log("date:")
+        console.log(d.getDate())
+        schedule[day-1].map((item,idx)=>(
+          tclasses[getIdx(item)]+=1
+        ))
       }
     }
-    await add('total',JSON.stringify(t))
+    print(tclasses)
+    await add('total',JSON.stringify(tclasses))
 
   }
 
-  const total = async()=>{
-    if(day>0 && day!=6){
-      let val = schedule[day-1].length
-       
-      await add('total',JSON.stringify(val))
-    }
-  }
+  
   const edit = async()=>{
     if(isSubmitted){
       setSubmitted(false)
-      let newObj = obj
+      let newObj = await retrieve('attended')
+      newObj = JSON.parse(newObj)
       isSelected.map((item, idx) => {
       if (item) {
-        if(obj[idx][0]>0){
-        newObj[idx][0] = obj[idx][0] - 1;
+        if(obj[idx]>0){
+        newObj[idx] = obj[idx] - 1;
         console.log(obj);
         }
         else{
-          newObj[idx][0] = 0
+          newObj[idx] = 0
         }
       }
     });
     setObj(newObj);
-    await add('attended', JSON.stringify(newObj));
-    console.log('added');
+    await add('attended',JSON.stringify(newObj))
     }
   }
   const submit = async() => {
@@ -154,11 +146,13 @@ export default function Home({ navigation }) {
     try{
     const c = isSelected.filter((item) => item === true).length;
   
-    let newObj = await check()
+    let newObj = await retrieve('attended')
+    newObj = JSON.parse(newObj)
+    console.log(`new obj ${newObj}`)
     isSelected.map((item, idx) => {
       if (item) {
         
-        newObj[idx][0] = obj[idx][0] + 1;
+        newObj[idx] += + 1;
         console.log(obj);
       }
     });
@@ -166,7 +160,6 @@ export default function Home({ navigation }) {
     await add('attended', JSON.stringify(newObj));
     await add('selected',JSON.stringify(isSelected));
     console.log('added');
-    total()
     navigation.navigate('Attendance')
     }
     catch(err){
@@ -182,6 +175,8 @@ export default function Home({ navigation }) {
       let t = await retrieve('total')
       let o = await retrieve('attended')
       let x = await retrieve('selected')
+      console.log(`t ${t}`)
+      console.log(`A ${o}`)
       if(t==null){
         calTotal()
       }
@@ -228,15 +223,20 @@ export default function Home({ navigation }) {
           ))}
         </View>
         <View style={styles.btnContainer}>
-        <Pressable style={styles.btn} onPress={submit}><Text>Submit</Text></Pressable>
+        <Pressable style={styles.btn} onPress={submit}><Text style={styles.btnTxt}>Submit</Text></Pressable>
         </View>
         <View style={styles.btnContainer}>
-        <Pressable style={styles.btn1} onPress={edit}><Text>Edit attendance</Text></Pressable>
+        <Pressable style={styles.btn1} onPress={edit}><Text style={styles.btnTxt}>Edit attendance</Text></Pressable>
         </View>
       </View>
     );
   } else {<Text style={styles.heading}>{date.getDate()} {months[date.getMonth()]}, {days[day]}</Text>
-    return <Text>Holidayv :</Text>;
+    return( 
+    <View style={styles.container2}>
+    <Text>Holiday :)</Text>
+    <Pressable style={styles.btn1} onPress={()=>{navigation.navigate('Attendance')}}><Text style={styles.btnTxt}>Check attendance</Text></Pressable>
+    </View>
+    )
   }
 }
 
@@ -249,6 +249,15 @@ const styles = StyleSheet.create({
     margin:5
     
   },
+  container2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: '#ecf0f1',
+    padding: 5,
+    margin:5
+    
+  },
   heading:{
      margin:10,
     fontSize: 24,
@@ -256,7 +265,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   txt: {
-    margin:10,
+    
     padding:10,
     fontSize: 15,
     fontWeight: 'bold',
@@ -277,27 +286,32 @@ alignItems:'center',
 margin:10,
   },
   btn:{
-    height:40,
+    height:50,
     width:100,
     backgroundColor:'#6ecaf5',
     color:'white',
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius:50,
-    borderWidth:1,
+    borderWidth:0,
     margin:10,
     padding:10,   
   },
   btn1:{
-    height:40,
+    height:50,
     width:150,
     backgroundColor:'#6ecaf5',
     color:'white',
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius:50,
-    borderWidth:1,
+    borderWidth:0,
     margin:10,
     padding:10,
+  },
+  btnTxt:{
+    color:'white',
+    fontWeight:'bold',
+    fontFamily:'Roboto',
   }
 });
