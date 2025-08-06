@@ -12,7 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState, useEffect  } from 'react';
 import { DataTable } from 'react-native-paper';
-
+  import { ThemedButton } from 'react-native-really-awesome-button';
 export default function Edit({navigation}){
     const getIdx = (item) => {
     switch (item) {
@@ -30,20 +30,19 @@ export default function Edit({navigation}){
         return 5;
       case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
+      case 'DBMS Lab Batch-II SW-II Lab (VBN)':
           return 7;
-      case 'WP Lab Batch-I SW-IV Lab (VS)':
+      case 'WP Lab Batch-II SW-IV Lab (VS)':
         return 8;
     }
   };
-    const schedule = [
+     const schedule = [
     [
       'AI&ML (YVSP)',
       'SE (PTF)',
       'DM (MAH)',
       'NTC (AG)',
       'WP (VS)',
-      'AI&ML Lab Batch-I SW-IV Lab (AG)',
     ],
     [
       'AI&ML (YVSP)',
@@ -54,20 +53,20 @@ export default function Edit({navigation}){
     ],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-I SW-II Lab (VBN)',
+      'WP Lab Batch-II SW-IV Lab (VS)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'WP Lab Batch-I SW-IV Lab (VS)',
+      'DBMS Lab Batch-II SW-II Lab (VBN)',
       'WP (VS)',
     ],
   ];
     const Sub =  ['AI&ML (YVSP)','SE (PTF)','DM (MAH)','NTC (AG)','WP (VS)','DBMS (CKR)',
-      'AI&ML Lab Lab (AG)','DBMS Lab Batch-I SW-II Lab (VBN)',
-      'WP Lab Batch-I SW-IV Lab (VS)',]
+      'AI&ML Lab Batch-II (AG)','DBMS Lab Batch-II SW-II Lab (VBN)',
+      'WP Lab Batch-II SW-IV Lab (VS)',]
   
   
   const [totalClasses,setTotalClasses] = useState(0)
@@ -170,13 +169,13 @@ return(
   <ScrollView>
   <View style={styles.container}>
    <DataTable >
-            <DataTable.Header>
-              <DataTable.Title style={{ flex:3, justifyContent: 'center'}} textStyle={{fontWeight:'bold',fontSize:14 }}>Subject</DataTable.Title>
-              <DataTable.Title style={{ flex:2, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Total</DataTable.Title>
+            <DataTable.Header style={{borderWidth:1 }}>
+              <DataTable.Title style={{  justifyContent: 'center'}} textStyle={{fontWeight:'bold',fontSize:14 }}>Subject</DataTable.Title>
+              <DataTable.Title style={{ justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
+              <DataTable.Title style={{ justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Total</DataTable.Title>
             </DataTable.Header>
            {Sub.map((item,idx)=>(
-            <DataTable.Row key={idx}>
+            <DataTable.Row key={idx} style={{borderWidth:1}}>
                 <DataTable.Cell style={{ flex:3, justifyContent: 'center' }}>{item}</DataTable.Cell>
                 <DataTable.Cell style={styles.inp}><TextInput keyboardType='numeric' onChangeText={(x)=>{handleAttendance(x,idx)}} value={String(attended[idx])}></TextInput></DataTable.Cell>
                 <DataTable.Cell style={styles.inp}><TextInput keyboardType='numeric' value={String(total[idx])} onChangeText={(y)=>{handleTotal(y,idx)}} defaultValue={String(total[idx])}></TextInput></DataTable.Cell>
@@ -184,9 +183,12 @@ return(
            ))}
    
           </DataTable >
-          <Pressable style={styles.btn} onPress={()=>{submit()}}><Text style={styles.btnTxt}>Edit Attendance</Text></Pressable>
+          </View>
+          <View style={styles.btnContainer}>
+          <ThemedButton style={styles.btn} name="rick"  textColor="white" backgroundDarker="#5fbe88ff" backgroundColor="#4ede8dff" type="primary" onPress={submit}>Submit</ThemedButton>
+          </View>
           <Text style={styles.watermark}>©PSS</Text>
-  </View>
+  
   </ScrollView>
 )
 }
@@ -198,6 +200,11 @@ const styles = StyleSheet.create({
     padding: 8,
     margin:5
     
+  },
+  btnContainer:{
+alignItems:'center',
+margin:10,
+width:'100%',
   },
   txt: {
     margin:10,
@@ -219,22 +226,15 @@ const styles = StyleSheet.create({
     margin:10,
 
   },
-  btn:{
-    height:50,
-    width:150,
-    backgroundColor:'#6ecaf5',
+btn:{
     color:'white',
-    marginLeft:'auto',
-    marginRight:'auto',
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:50,
-    borderWidth:0,
+    justifyContent: 'center', 
+    alignItems: 'center', 
     margin:10,
-    padding:10,   
+    padding:10,  
   },
   inp:{
-    flex:1,
+    flex:2,
     justifyContent: 'center',
     borderWidth:1, 
     borderRadius:10,

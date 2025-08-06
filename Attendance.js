@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState, useEffect  } from 'react';
 import { DataTable } from 'react-native-paper';
-
+  import { ThemedButton } from 'react-native-really-awesome-button';
 export default function Attendance({navigation}){
     const getIdx = (item) => {
     switch (item) {
@@ -29,9 +29,9 @@ export default function Attendance({navigation}){
         return 5;
       case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
+      case 'DBMS Lab Batch-II SW-II Lab (VBN)':
           return 7;
-      case 'WP Lab Batch-I SW-IV Lab (VS)':
+      case 'WP Lab Batch-II SW-IV Lab (VS)':
         return 8;
     }
   };
@@ -42,7 +42,6 @@ export default function Attendance({navigation}){
       'DM (MAH)',
       'NTC (AG)',
       'WP (VS)',
-      'AI&ML Lab Batch-I SW-IV Lab (AG)',
     ],
     [
       'AI&ML (YVSP)',
@@ -53,20 +52,20 @@ export default function Attendance({navigation}){
     ],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-I SW-II Lab (VBN)',
+      'WP Lab Batch-II SW-IV Lab (VS)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'WP Lab Batch-I SW-IV Lab (VS)',
+      'DBMS Lab Batch-II SW-II Lab (VBN)',
       'WP (VS)',
     ],
   ];
     const Sub =  ['AI&ML (YVSP)','SE (PTF)','DM (MAH)','NTC (AG)','WP (VS)','DBMS (CKR)',
-      'AI&ML Lab Lab (AG)','DBMS Lab Batch-I SW-II Lab (VBN)',
-      'WP Lab Batch-I SW-IV Lab (VS)',]
+      'AI&ML Lab Batch-II (AG)','DBMS Lab Batch-II SW-II Lab (VBN)',
+      'WP Lab Batch-II SW-IV Lab (VS)',]
   
   
   const [totalClasses,setTotalClasses] = useState(0)
@@ -131,32 +130,36 @@ useEffect(()=>{
 return(
   <ScrollView>
   <View style={styles.container}>
+    <View style={styles.container2}>
   <Text style={styles.txt}>Total Classes: {totalClasses}</Text>
   <Text style={styles.txt}>Attended Classes: {attendedClasses}</Text>
   <Text style={styles.txt}>Attendance: {totalClasses > 0 
       ? ((attendedClasses/totalClasses)*100).toFixed(2) 
-      : '0.00'}%</Text>
+      : '0.00'}%</Text></View>
    <DataTable >
-            <DataTable.Header>
-              <DataTable.Title style={{ flex:3, justifyContent: 'center'}} textStyle={{fontWeight:'bold',fontSize:14 }}>Subject</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>Total</DataTable.Title>
-              <DataTable.Title style={{ flex:1, justifyContent: 'center' }} textStyle={{fontWeight:'bold',fontSize:14 }}>P</DataTable.Title>
+            <DataTable.Header style={{borderWidth:1}}>
+              <DataTable.Title style={{ flex:3, justifyContent: 'center',borderRightWidth:1}} textStyle={{fontWeight:'bold',fontSize:14 }}>Subject</DataTable.Title>
+              <DataTable.Title style={{ flex:2, justifyContent: 'center',borderRightWidth:1 }} textStyle={{fontWeight:'bold',fontSize:14 }}>Attended</DataTable.Title>
+              <DataTable.Title style={{ flex:2, justifyContent: 'center',borderRightWidth:1 }} textStyle={{fontWeight:'bold',fontSize:14 }}>Total</DataTable.Title>
+              <DataTable.Title style={{ flex:1, justifyContent: 'center'}} textStyle={{fontWeight:'bold',fontSize:14 }}>P</DataTable.Title>
             </DataTable.Header>
            {Sub.map((item,idx)=>(
-            <DataTable.Row key={idx}>
-                <DataTable.Cell style={{ flex:3, justifyContent: 'center' }}>{item}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }}>{attended[idx]}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }}>{total[idx]}</DataTable.Cell>
-                <DataTable.Cell style={{ flex:1,justifyContent: 'center' }} >{p(idx)}{'%'}</DataTable.Cell>
+            <DataTable.Row key={idx} style={{borderWidth:1}}>
+                <DataTable.Cell style={{ flex:3, justifyContent: 'center',borderRightWidth:1 }}>{item}</DataTable.Cell>
+                <DataTable.Cell style={{ flex:2,justifyContent: 'center',borderRightWidth:1 }}>{attended[idx]}</DataTable.Cell>
+                <DataTable.Cell style={{ flex:2,justifyContent: 'center',borderRightWidth:1 }}>{total[idx]}</DataTable.Cell>
+                <DataTable.Cell style={{ flex:1,justifyContent: 'center'}} >{p(idx)}{'%'}</DataTable.Cell>
             </DataTable.Row>
            ))}
    
           </DataTable >
-          <Pressable style={styles.btn} onPress={()=>{navigation.navigate('Edit')}}><Text style={styles.btnTxt}>Edit Attendance</Text></Pressable>
+          </View>
+          <View style={styles.btnContainer}>
+           <ThemedButton style={styles.btn} name="rick"  textColor="white" backgroundDarker="#5fbe88ff" backgroundColor="#4ede8dff" type="primary" onPress={()=>{navigation.navigate('Edit')}}>Edit Attendance</ThemedButton>
+          </View>
           <Text style={styles.watermark}>©PSS</Text>
-  </View>
-  </ScrollView>
+ </ScrollView>
+  
 )
 }
 const styles = StyleSheet.create({
@@ -164,9 +167,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
-    padding: 8,
+    padding: 5,
     margin:5
     
+  },
+  container2: {
+    borderRadius:25,
+    borderWidth:1,
+    marginBottom:20,
+    marginTop:20,
+    borderColor:'black',
+  },
+  btnContainer:{
+alignItems:'center',
+margin:10,
+width:'100%',
   },
   txt: {
     margin:10,
@@ -189,17 +204,11 @@ const styles = StyleSheet.create({
 
   },
   btn:{
-    height:50,
-    width:150,
-    backgroundColor:'#6ecaf5',
+    color:'white',
     justifyContent: 'center', 
-    alignItems: 'center', 
+    alignSelf: 'center', 
     margin:10,
-    marginLeft:'auto',
-    marginRight:'auto',
-    padding:10,   
-    borderRadius:50,
-    borderWidth:0,
+    padding:10,  
   },
   btnTxt:{
     color:'white',

@@ -9,7 +9,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState,useEffect } from 'react';
 import Checkbox from 'expo-checkbox';
-
+  import { ThemedButton } from 'react-native-really-awesome-button';
 export default function Home({ navigation }) {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -20,7 +20,6 @@ export default function Home({ navigation }) {
       'DM (MAH)',
       'NTC (AG)',
       'WP (VS)',
-      'AI&ML Lab Batch-I SW-IV Lab (AG)',
     ],
     [
       'AI&ML (YVSP)',
@@ -31,14 +30,14 @@ export default function Home({ navigation }) {
     ],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-I SW-II Lab (VBN)',
+      'WP Lab Batch-II SW-IV Lab (VS)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'WP Lab Batch-I SW-IV Lab (VS)',
+      'DBMS Lab Batch-II SW-II Lab (VBN)',
       'WP (VS)',
     ],
   ];
@@ -83,11 +82,11 @@ export default function Home({ navigation }) {
         return 4;
       case 'DBMS (CKR)':
         return 5;
-      case 'AI&ML Lab Batch-I SW-IV Lab (AG)':
+      case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
+      case 'DBMS Lab Batch-II SW-II Lab (VBN)':
           return 7;
-      case 'WP Lab Batch-I SW-IV Lab (VS)':
+      case 'WP Lab Batch-II SW-IV Lab (VS)':
         return 8;
     }
   };
@@ -215,18 +214,22 @@ export default function Home({ navigation }) {
             <View key={index} style={styles.box}>
               <Checkbox style={styles.cb}
                 value={isSelected[getIdx(item)]}
-                onValueChange={() => handleVal(getIdx(item))}>
-               
+                onValueChange={() => handleVal(getIdx(item))}
+                color={isSubmitted?"grey":'green'}
+                >
               </Checkbox>
               <Text style={styles.txt}>{item}</Text>
             </View>
           ))}
         </View>
         <View style={styles.btnContainer}>
-        <Pressable style={styles.btn} onPress={submit}><Text style={styles.btnTxt}>Submit</Text></Pressable>
+        <ThemedButton style={styles.btn} name="rick"  textColor="white" backgroundDarker="#5fbe88ff" backgroundColor="#4ede8dff" type="primary" onPress={submit}>Submit</ThemedButton>
         </View>
         <View style={styles.btnContainer}>
-        <Pressable style={styles.btn1} onPress={edit}><Text style={styles.btnTxt}>Edit attendance</Text></Pressable>
+          <ThemedButton style={styles.btn} name="rick" textColor="white" type="primary" onPress={edit}>Edit attendance</ThemedButton>
+        </View>
+        <View style={styles.btnContainer}>
+          <ThemedButton style={styles.btn} name="rick" textColor="white" type="primary" onPress={()=>{navigation.navigate('Attendance')}}>Check attendance</ThemedButton>
         <Text style={styles.watermark}>©PSS</Text>
         </View>
       </View>
@@ -285,30 +288,14 @@ const styles = StyleSheet.create({
   btnContainer:{
 alignItems:'center',
 margin:10,
+width:'100%',
   },
   btn:{
-    height:50,
-    width:100,
-    backgroundColor:'#6ecaf5',
     color:'white',
     justifyContent: 'center', 
     alignItems: 'center', 
-    borderRadius:50,
-    borderWidth:0,
-    margin:10,
-    padding:10,   
-  },
-  btn1:{
-    height:50,
-    width:150,
-    backgroundColor:'#6ecaf5',
-    color:'white',
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius:50,
-    borderWidth:0,
-    margin:10,
-    padding:10,
+    margin:5,
+    padding:10,  
   },
   btnTxt:{
     color:'white',

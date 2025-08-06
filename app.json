@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "AT",
-    "slug": "attendance-tracker",
+    "slug": "attendance-tracker-2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +28,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "184895cb-fbbd-434b-a0ec-0c058c5f8eb0"
+        "projectId": "af95d43f-d6e1-4411-83de-c3ec1157532a"
       }
     },
     "owner": "pss10111"
