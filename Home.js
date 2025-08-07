@@ -20,24 +20,24 @@ export default function Home({ navigation }) {
       'DM (MAH)',
       'NTC (AG)',
       'WP (VS)',
+      'AI&ML Lab Batch-I SW-IV Lab (AG)',
     ],
     [
       'AI&ML (YVSP)',
       'SE (PTF)',
       'NTC (AG)',
       'WP (VS)',
-      'AI&ML Lab Batch-II SW-IV Lab (AG)',
     ],
     [
       'DBMS (CKR)',
-      'WP Lab Batch-II SW-IV Lab (VS)',
+      'DBMS Lab Batch-I SW-II Lab (VBN)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-II SW-II Lab (VBN)',
+      'WP Lab Batch-I SW-IV Lab (VS)',
       'WP (VS)',
     ],
   ];
@@ -68,7 +68,7 @@ export default function Home({ navigation }) {
     }
   };
   const [obj, setObj] = useState( new Array(9).fill(0));
-  const getIdx = (item) => {
+   const getIdx = (item) => {
     switch (item) {
       case 'AI&ML (YVSP)':
         return 0;
@@ -82,11 +82,11 @@ export default function Home({ navigation }) {
         return 4;
       case 'DBMS (CKR)':
         return 5;
-      case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
+      case 'AI&ML Lab Batch-I SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-II SW-II Lab (VBN)':
+      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
           return 7;
-      case 'WP Lab Batch-II SW-IV Lab (VS)':
+      case 'WP Lab Batch-I SW-IV Lab (VS)':
         return 8;
     }
   };

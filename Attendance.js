@@ -27,45 +27,45 @@ export default function Attendance({navigation}){
         return 4;
       case 'DBMS (CKR)':
         return 5;
-      case 'AI&ML Lab Batch-II SW-IV Lab (AG)':
+      case 'AI&ML Lab Batch-I SW-IV Lab (AG)':
         return 6;
-      case 'DBMS Lab Batch-II SW-II Lab (VBN)':
+      case 'DBMS Lab Batch-I SW-II Lab (VBN)':
           return 7;
-      case 'WP Lab Batch-II SW-IV Lab (VS)':
+      case 'WP Lab Batch-I SW-IV Lab (VS)':
         return 8;
     }
   };
-    const schedule = [
+     const schedule = [
     [
       'AI&ML (YVSP)',
       'SE (PTF)',
       'DM (MAH)',
       'NTC (AG)',
       'WP (VS)',
+      'AI&ML Lab Batch-I SW-IV Lab (AG)',
     ],
     [
       'AI&ML (YVSP)',
       'SE (PTF)',
       'NTC (AG)',
       'WP (VS)',
-      'AI&ML Lab Batch-II SW-IV Lab (AG)',
     ],
     [
       'DBMS (CKR)',
-      'WP Lab Batch-II SW-IV Lab (VS)',
+      'DBMS Lab Batch-I SW-II Lab (VBN)',
       'DM (MAH)',
       'SE (PTF)',
     ],
     ['AI&ML (YVSP)', 'DBMS (CKR)', 'NTC (AG)', 'DM (MAH)'],
     [
       'DBMS (CKR)',
-      'DBMS Lab Batch-II SW-II Lab (VBN)',
+      'WP Lab Batch-I SW-IV Lab (VS)',
       'WP (VS)',
     ],
   ];
     const Sub =  ['AI&ML (YVSP)','SE (PTF)','DM (MAH)','NTC (AG)','WP (VS)','DBMS (CKR)',
-      'AI&ML Lab Batch-II (AG)','DBMS Lab Batch-II SW-II Lab (VBN)',
-      'WP Lab Batch-II SW-IV Lab (VS)',]
+      'AI&ML Lab Batch-I (AG)','DBMS Lab Batch-I SW-II Lab (VBN)',
+      'WP Lab Batch-I SW-IV Lab (VS)',]
   
   
   const [totalClasses,setTotalClasses] = useState(0)
